@@ -606,6 +606,11 @@ visHclust.hclust <- function(object, data = NULL, main = "", submain = "", foote
   
   res$nodes$label <- as.character(res$nodes$label)
   
+  
+  res$nodes$value[res$nodes$hidden] <- 0
+  res$nodes$size <-  res$nodes$value
+  res$nodes$hidden <- NULL
+  
   # res$nodes$label[res$nodes$group %in% "individual" & res$nodes$hidden == FALSE] <- gsub("^(\\n)|(\\n)$", "", 
                                                                                        # gsub("", "\\\n", res$nodes$label[res$nodes$group %in% "individual" & res$nodes$hidden == FALSE]))
   if(!horizontal){
@@ -619,7 +624,7 @@ visHclust.hclust <- function(object, data = NULL, main = "", submain = "", foote
     visGroups(groupname = "group", 
               color = list(background = "#D8D8D8", border = "black", 
                            highlight = "black", hover = "black"), shape = "square") %>%
-    visInteraction(hover = TRUE)
+    visInteraction(hover = TRUE) %>% visNodes(scaling = list(min = 0))
   
   if(!horizontal){
     vis <- vis %>% visGroups(groupname = "individual", 
